@@ -42,7 +42,7 @@ impl<T> ::core::clone::Clone for __IncompleteArrayField<T> {
 }
 pub const OS_WAIT_FOREVER: i32 = -1;
 pub const OS_IDLE_PRIO: u32 = 255;
-pub const OS_TICKS_PER_SEC: u32 = 1000;
+pub const OS_TICKS_PER_SEC: u32 = 128;  ////  TODO: Previously 1000
 pub const OS_SANITY_STACK_SIZE: u32 = 64;
 pub const OS_IDLE_STACK_SIZE: u32 = 64;
 pub const OS_STACK_PATTERN: u32 = 3735928559;

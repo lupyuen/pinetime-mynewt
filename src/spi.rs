@@ -63,7 +63,7 @@ static mut SPI_TASK_STACK: [os::os_stack_t; SPI_TASK_STACK_SIZE] =
 /// Size of the stack (in 4-byte units). Previously `OS_STACK_ALIGN(256)`  
 const SPI_TASK_STACK_SIZE: usize = 256;
 //  TODO: Get this constant from Mynewt
-const OS_TICKS_PER_SEC: u32 = 1000;
+const OS_TICKS_PER_SEC: u32 = 128;
 
 /// Non-blocking SPI transfer callback parameter (not used)
 struct SpiCallback {}

@@ -195,7 +195,7 @@ impl embedded_hal::blocking::delay::DelayMs<u8> for Delay {
     /// Sleep for the specified number of milliseconds
     fn delay_ms(&mut self, ms: u8) {
         //  TODO: Get this constant from Mynewt
-        const OS_TICKS_PER_SEC: u32 = 1000;
+        const OS_TICKS_PER_SEC: u32 = 128;
         let delay_ticks = (ms as u32) * OS_TICKS_PER_SEC / 1000;
         unsafe { os::os_time_delay(delay_ticks) };
     }
