@@ -27,7 +27,7 @@ use crate::{
 };
 
 /// Returns an iterator of sensors that match the device name `devname`
-pub fn find_bydevname(devname: &Strn) -> SensorsByDevname {
+pub fn find_bydevname<'a>(devname: &'a Strn) -> SensorsByDevname<'a> {
     SensorsByDevname { 
         devname: *devname,
         previous: core::ptr::null_mut()
@@ -36,7 +36,7 @@ pub fn find_bydevname(devname: &Strn) -> SensorsByDevname {
 }
 
 /// Implement the iterator for finding a sensor by device name
-impl Iterator for SensorsByDevname {
+impl<'a> Iterator for SensorsByDevname<'a> {
     /// Iterator returns a pointer to a sensor
     type Item = sensor_ptr;
 
@@ -55,9 +55,9 @@ impl Iterator for SensorsByDevname {
 }
 
 /// State for iterating sensors by device name
-pub struct SensorsByDevname {
+pub struct SensorsByDevname<'a> {
     /// Device name of the sensor
-    devname: Strn,
+    devname: Strn<'a>,
     /// Last sensor that was returned
     previous: sensor_ptr,
 }

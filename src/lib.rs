@@ -121,28 +121,28 @@ pub mod result {
 /// The string could be a null-terminated byte string created in Rust, or a pointer to a null-terminated string returned by C.
 /// Pointer may be null.
 #[derive(Clone, Copy)]  //  Strn may be copied
-pub struct Strn {
+pub struct Strn<'a> {
     /// Either a byte string terminated with null, or a pointer to a null-terminated string
-    pub rep: StrnRep
+    pub rep: StrnRep<'a>
 }
 
 /// Either a byte string or a string pointer
 #[derive(Clone, Copy)]  //  StrnRep may be copied
 #[repr(u8)]
-pub enum StrnRep {
+pub enum StrnRep<'a> {
     /// Byte string terminated with null
-    ByteStr(&'static [u8]),
+    ByteStr(&'a [u8]),
     /// Pointer to a null-terminated string
     CStr(*const u8),
 }
 
-impl Strn {
+impl<'a> Strn<'a> {
     /// Create a new `Strn` with a byte string. Fail if the last byte is not zero.
     /// ```
     /// Strn::new(b"network\0")
     /// strn!("network")
     /// ```
-    pub fn new(bs: &'static [u8]) -> Strn {
+    pub fn new(bs: &[u8]) -> Strn {
         assert_eq!(bs.last(), Some(&0u8), "no null");  //  Last byte must be 0.
         Strn { 
             rep: StrnRep::ByteStr(bs)
@@ -150,7 +150,7 @@ impl Strn {
     }
 
     /// Create a new `Strn` with a null-terminated string pointer returned by C.
-    pub fn from_cstr(cstr: *const u8) -> Strn {
+    pub fn from_cstr(cstr: *const u8) -> Strn<'a> {
         Strn { 
             rep: StrnRep::CStr(cstr)
         }
@@ -203,7 +203,7 @@ impl Strn {
 
     /// Return the byte string.
     /// Fail if the last byte is not zero.
-    pub fn as_bytestr(&self) -> &'static [u8] {
+    pub fn as_bytestr(&self) -> &'a [u8] {
         match self.rep {
             StrnRep::ByteStr(bs) => {                
                 assert_eq!(bs.last(), Some(&0u8), "no null");  //  Last byte must be 0.
@@ -233,10 +233,10 @@ impl Strn {
 }
 
 ///  Allow threads to share Strn, since it is static.
-unsafe impl Send for Strn {}
+unsafe impl<'a> Send for Strn<'a> {}
 
 ///  Allow threads to share Strn, since it is static.
-unsafe impl Sync for Strn {}
+unsafe impl<'a> Sync for Strn<'a> {}
 
 ///  Declare a pointer that will be used by C functions to return a value
 pub type Out<T> = &'static mut T;

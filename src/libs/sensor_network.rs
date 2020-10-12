@@ -94,9 +94,11 @@ impl Default for sensor_network_interface {
         device_name: *const ::cty::c_char,
     ) -> bool;
 }
+/*  ////TODO
 #[mynewt_macros::safe_wrap(attr)] extern "C" {
     pub fn get_device_id() -> *const ::cty::c_char;
 }
+*/
 #[mynewt_macros::safe_wrap(attr)] extern "C" {
     #[doc = ""]
     pub fn sensor_network_init();

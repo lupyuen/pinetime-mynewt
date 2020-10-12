@@ -23,7 +23,7 @@ pub use self::bindings::*;
 ///  Convert the sensor data received from Mynewt into a `SensorValue` for transmission, which includes the sensor data key. 
 ///  `sensor_type` indicates the type of data in `sensor_data`.
 #[allow(non_snake_case, unused_variables)]
-fn convert_sensor_data(sensor_data: sensor_data_ptr, sensor_key: &'static Strn, sensor_type: sensor_type_t) -> SensorValue {
+fn convert_sensor_data<'a>(sensor_data: sensor_data_ptr, sensor_key: &'static Strn, sensor_type: sensor_type_t) -> SensorValue<'a> {
     //  Construct and return a new `SensorValue` (without semicolon)
     SensorValue {
         key: sensor_key,
@@ -174,8 +174,8 @@ extern "C" fn wrap_sensor_listener(
 
 ///  Define the info needed for converting sensor data into sensor value and calling a listener function
 #[derive(Clone, Copy)]
-struct sensor_listener_info {
-    sensor_key:     &'static Strn,
+struct sensor_listener_info<'a> {
+    sensor_key:     &'a Strn<'a>,
     sensor_type:    sensor_type_t, 
     listener_func:  SensorValueFunc,
     listener:       sensor_listener,
@@ -265,9 +265,9 @@ pub const SENSOR_TYPE_GEOLOCATION: sensor_type_t =
 ///  Represents a decoded sensor data value. Since temperature may be integer (raw)
 ///  or float (computed), we use the struct to return both integer and float values.
 #[derive(Clone, Copy)]  //  Sensor values may be copied
-pub struct SensorValue {
+pub struct SensorValue<'a> {
   ///  Null-terminated string for the key.  `t` for raw temp, `tmp` for computed. When transmitted to CoAP Server or Collector Node, the key (field name) to be used.
-  pub key: &'static Strn,
+  pub key: &'a Strn<'a>,
   ///  The type of the sensor value and the value.
   pub value: SensorValueType,
   ///  Geolocation associated with the sensor value.
@@ -275,9 +275,9 @@ pub struct SensorValue {
 }
 
 ///  Default sensor value is `None`
-impl Default for SensorValue {
+impl<'a> Default for SensorValue<'a> {
   #[inline]
-  fn default() -> SensorValue {
+  fn default() -> SensorValue<'a> {
     SensorValue {
       key: &init_strn!(""),
       value: SensorValueType::None,

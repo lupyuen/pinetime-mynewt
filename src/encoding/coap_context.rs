@@ -243,7 +243,7 @@ impl ToBytesOptionalNull for CStr {
 }
 
 /// Convert the type to array of bytes that may or may not end with null. Strn always ends with null.
-impl ToBytesOptionalNull for crate::Strn {
+impl<'a> ToBytesOptionalNull for crate::Strn<'a> {
     /// Convert the type to array of bytes that may or may not end with null. Strn always ends with null.
     fn to_bytes_optional_nul(&self) -> &[u8] {
         match self.rep {
