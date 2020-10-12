@@ -1,7 +1,7 @@
 # Info about this package.
 [package]
 name          = "pinetime-mynewt"
-version       = "1.0.3"
+version       = "1.0.4"
 authors       = ["Lee Lup Yuen <luppy@appkaki.com>"]
 edition       = "2018"
 description   = "Mynewt Bindings for PineTime Smart Watch"
