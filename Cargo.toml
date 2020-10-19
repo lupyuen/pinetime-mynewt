@@ -1,7 +1,7 @@
 # Info about this package.
 [package]
 name          = "pinetime-mynewt"
-version       = "1.0.4"
+version       = "2.0.0"
 authors       = ["Lee Lup Yuen <luppy@appkaki.com>"]
 edition       = "2018"
 description   = "Mynewt Bindings for PineTime Smart Watch"
@@ -14,7 +14,7 @@ license       = "Apache-2.0"
 
 # External Rust libraries used by this module.  See crates.io.
 [dependencies]
-pinetime-macros = "1.0.3"  # Safe Wrapper Macros for Mynewt on PineTime Smart Watch: https://crates.io/crates/pinetime-macros
+pinetime-macros = "2.0.0"  # Safe Wrapper Macros for Mynewt on PineTime Smart Watch: https://crates.io/crates/pinetime-macros
 # pinetime-macros = { path = "../pinetime-macros" }  # For development only
 cortex-m        = { version = "0.6.1", features = [ "inline-asm" ] }  # Arm Cortex-M utilities: https://crates.io/crates/cortex-m
 cstr_core       = "0.1.2"  # String utilities from cstr_core library: https://crates.io/crates/cstr_core
